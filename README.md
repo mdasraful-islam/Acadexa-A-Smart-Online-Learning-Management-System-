@@ -59,7 +59,7 @@ Open `http://localhost:3000`. The default `DB_MODE=demo` keeps accounts and prog
 npm test
 ```
 
-The API tests use the real in-memory store and exercise registration, authentication, course access, enrollment, duplicate prevention, and lesson progress. A MySQL server is not bundled, so the MySQL adapter and schema still need an integration run against a MySQL instance before production use.
+The API tests exercise registration, authentication, course access, enrollment, duplicate prevention, and lesson progress with the in-memory store. The MySQL integration test is skipped locally unless `TEST_MYSQL=1` is set. GitHub Actions starts an isolated MySQL 8.4 service, initializes `schema.sql` and sample courses, then runs the same end-to-end enrollment and progress flow against MySQL. For local integration testing, configure MySQL in `.env`, run `npm run db:init`, then set `TEST_MYSQL=1` and run `npm test` (in PowerShell: `$env:TEST_MYSQL = '1'; npm test`).
 
 ## API
 
