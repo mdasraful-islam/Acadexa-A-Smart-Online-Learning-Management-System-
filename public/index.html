@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Acadexa is a learning management system demo for finding courses, enrolling, and tracking lesson progress.">
+  <title>Acadexa · Learning workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="Acadexa home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span><strong>Acadexa</strong><small>Learning workspace</small></span>
+      </a>
+      <nav class="nav-list">
+        <button class="nav-link active" data-route="explore" type="button"><span aria-hidden="true">⌕</span> Explore courses</button>
+        <button class="nav-link" data-route="dashboard" type="button"><span aria-hidden="true">▤</span> My learning</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sample-note"><span class="status-dot"></span><span><strong>Demo workspace</strong><small>Courses are sample content</small></span></div>
+        <div id="account-status" class="account-status" hidden></div>
+        <button id="logout-button" class="text-button" type="button" hidden>Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">LEARNING WORKSPACE <span>/</span> <span id="breadcrumb-current">EXPLORE</span></p>
+          <h1 id="page-title">Find your next course</h1>
+        </div>
+        <div class="header-actions">
+          <span class="avatar" id="avatar" aria-hidden="true">A</span>
+          <span id="header-user" class="header-user">Guest learner</span>
+          <button class="button button-secondary" id="account-open" type="button">Sign in</button>
+        </div>
+      </header>
+
+      <section class="hero-panel" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="pill pill-blue">A calmer way to learn</span>
+          <h2 id="hero-title">Build one skill at a time.</h2>
+          <p>Explore short courses, save your place, and keep track of lessons you have finished.</p>
+          <button class="button button-primary" data-route="explore" type="button">Browse the catalog <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="book-stack"><span></span><span></span><span></span><i>✦</i></div>
+          <div class="art-caption">Learn at<br>your pace</div>
+        </div>
+      </section>
+
+      <details class="account-box" id="account-box">
+        <summary><span><strong>Save your learning progress</strong><small>Create an account or sign in to enroll in courses.</small></span><span class="summary-arrow" aria-hidden="true">＋</span></summary>
+        <div class="account-forms">
+          <form id="register-form" class="auth-form">
+            <h2>Create account</h2>
+            <label>Name<input name="name" autocomplete="name" minlength="2" maxlength="80" required></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Password<input name="password" type="password" autocomplete="new-password" minlength="10" required><small>Use at least 10 characters.</small></label>
+            <button class="button button-primary" type="submit">Create account</button>
+            <button class="link-button" id="show-login" type="button">Already registered? Sign in</button>
+          </form>
+          <form id="login-form" class="auth-form" hidden>
+            <h2>Welcome back</h2>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+            <button class="button button-primary" type="submit">Sign in</button>
+            <button class="link-button" id="show-register" type="button">New to Acadexa? Create an account</button>
+          </form>
+        </div>
+      </details>
+
+      <section id="catalog-view" class="content-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">START LEARNING</p><h2 id="catalog-title">Course catalog</h2></div>
+          <label class="search-box"><span class="sr-only">Search courses</span><span aria-hidden="true">⌕</span><input id="course-search" type="search" placeholder="Search courses" autocomplete="off"></label>
+        </div>
+        <div id="course-grid" class="course-grid" aria-live="polite"></div>
+        <p id="empty-courses" class="empty-state" hidden>No courses match that search.</p>
+      </section>
+
+      <section id="dashboard-view" class="content-section" aria-labelledby="dashboard-title" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">YOUR PROGRESS</p><h2 id="dashboard-title">My learning</h2></div>
+          <span id="course-total" class="pill pill-neutral">0 courses</span>
+        </div>
+        <div id="dashboard-list" class="dashboard-list"></div>
+        <div id="dashboard-empty" class="empty-card" hidden>
+          <div class="empty-icon" aria-hidden="true">✦</div>
+          <h3>Your learning space is ready</h3>
+          <p>Enroll in a course from the catalog and it will appear here.</p>
+          <button class="button button-primary" data-route="explore" type="button">Explore courses</button>
+        </div>
+      </section>
+
+      <footer class="page-footer"><span>Acadexa · learning management system demo</span><span>Sample courses only. Not an official AIUB course catalog.</span></footer>
+    </main>
+  </div>
+
+  <dialog id="course-dialog" class="course-dialog" aria-labelledby="dialog-title">
+    <form method="dialog" class="dialog-top"><button class="icon-button" aria-label="Close course details">×</button></form>
+    <div id="dialog-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
